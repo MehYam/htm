@@ -12,18 +12,29 @@ var g_testData =
 	],
 	"aliases":
 	[
-		["battery", "charge"],
-		["syringe", "needle"],
-		["gray", "grey"],
-		["tear", "teardrop"],
-		["fly", "flies"],
-		["zodiac", "horoscope", "horroscope"],
-		["round", "circle", "ball", "sphere"]
+		"battery charge",
+		"syringe needle",
+		"gray grey",
+		"fly flies",
+		"zodiac horoscope horroscope",
+		"round circle ball sphere"
 	]
 };
 
 function prepareData(data)
 {
+	// process the aliases first
+	var aliasLookup = {};
+	data.aliases.forEach(function(aliasString, i, array)
+	{
+		var aliases = aliasString.split(' ');
+		aliases.forEach(function(alias, i, array)
+		{
+			aliasLookup[alias] = aliasString;
+		});
+	});
+
+
 	//KAI: maybe include a "class" field.  When scoring matches, the name is weighted higher than class, then higher then tags
 	// add a by-name lookup
 	data.itemLookup = {};
@@ -34,30 +45,16 @@ function prepareData(data)
 		item.nameLowerCase = item.name.toLowerCase();
 		data.itemLookup[item.nameLowerCase] = item;
 
+		var aliasesToAppend = "";
 		var tags = item.tags.split(' ');
-
-		item.tagLookup = {};
 		tags.forEach(function(tag, i, array)
 		{
-			item.tagLookup[tag] = 1;
-		});
-	});
-
-	// turn alias list into a hash
-	data.aliasLookup = {};
-	data.aliases.forEach(function(aliases, i, array)
-	{
-		aliases.forEach(function(alias, i, array)
-		{
-			if (data.aliasLookup[alias])
+			if (aliasLookup[tag])
 			{
-				console.error("alias " + alias + " already in use");
-			}
-			else
-			{
-				data.aliasLookup[alias] = aliases;
+				aliasesToAppend += " " + aliasLookup[tag];
 			}
 		});
+		item.tags += " " + aliasesToAppend;
 	});
 }
 
@@ -67,19 +64,6 @@ function retrieveHits(data, searchText)
 {
 	// split search into multiple terms
 	var terms = searchText.toLowerCase().split(' ');  // KAI: should maybe regexp for whitespace instead
-
-	// for each term, find any aliases and add them to the list of tags
-	var aliases = [];
-	terms.forEach(function(term, i, array)
-	{
-		var alias = data.aliasLookup[term];
-		if (alias && alias != term)
-		{
-			aliases.push(alias);
-		}
-	});
-
-	terms = terms.concat(aliases);
 
 	// scan the items, gather the hits
 	var hits = [];
