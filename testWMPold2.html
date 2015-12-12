@@ -1,0 +1,37 @@
+<html>
+<input type="button" value="load and play" onclick="injectPlayingPlayer()"></input>
+<div id="audioPlay"></div>
+</html>
+
+<script type="text/javascript">
+function getAudioAndPlay(url) 
+{
+	return "<OBJECT id='AUDIO' width='200' height='40' " +
+		 "CLASSID='CLSID:6BF52A52-394A-11d3-B153-00C04F79FAA6'" +
+		 "codebase='http://activex.microsoft.com/activex/controls/mplayer/en/nsmp2inf.cab#Version=7,0,0,1954' " + 
+		 "type='application/x-oleobject'> " +
+ 			"<PARAM name='showControls' value='false'/> " +
+	 		"<PARAM name='fileName' value='" + url + "'/> " +
+			"<PARAM name='loop' value='false'/> " +
+			"<embed type='application/x-mplayer2' " +
+			"pluginspage='http://microsoft.com/windows/mediaplayer/en/download/' " +
+		 	"name='FAudio' ShowStatusBar='false' EnableContextMenu='0' autostart='true' " +
+			"width='200' height='40' loop='false' src='" + url + "'></embed>" +
+		"</OBJECT>";
+}
+
+var url = "file://c://album release candidates//foo.wma";
+
+function injectPlayer() {
+	document.getElementById("audioPlay").innerHTML = getAudio();
+}
+function injectPlayingPlayer() {
+	document.getElementById("audioPlay").innerHTML = getAudioAndPlay(url);
+        play();
+}
+function player() { return document.getElementById("AUDIO"); }
+function play() {
+	player().URL = url;
+}
+
+</script>

@@ -1,0 +1,28 @@
+<body>
+
+	This is a test
+
+	<p/>
+
+	<input type="button" value="test" onclick="onTest()"></input>
+	<input type="button" value="set cookie" onclick="onSetCookie()"></input>
+	<input type="button" value="clear cookie" onclick="onClearCookie()"></input>
+</body>
+
+<script type="text/javascript">
+
+function onTest()
+{
+	alert("I'm coding javascript");
+}
+
+function onSetCookie()
+{
+	document.cookie="foo=bar";
+}
+
+function onClearCookie()
+{
+	document.cookie="";
+}
+</script>

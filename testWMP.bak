@@ -1,0 +1,61 @@
+<html>
+<input type="button" value="load" onclick="injectPlayer()"></input>
+<input type="button" value="play" onclick="play()"></input>
+<input type="button" value="stop" onclick="stop()"></input>
+<input type="button" value="test" onclick="test()"></input>
+<div id="audioPlay"></div>
+<div id="playerState"></div>
+
+    <object id="wmp_p" src="file://c://album release candidates//foo.wma" type="application/x-ms-wmp" width="320" height="320" >
+      <param name="autostart" value="false" />
+
+      <param name="volume" value="100" />
+      <p>Error - the plugin has not loaded</p>
+    </object>
+
+</html>
+
+<script type="text/javascript">
+function getAudio() 
+{
+	return "<OBJECT id='AUDIO' width='200' height='40' " +
+		 "CLASSID='CLSID:6BF52A52-394A-11d3-B153-00C04F79FAA6'" +
+		 "codebase='http://activex.microsoft.com/activex/controls/mplayer/en/nsmp2inf.cab#Version=7,0,0,1954' " + 
+		 "type='application/x-oleobject'> " +
+ 			"<PARAM name='showControls' value='false'/> " +
+			"<PARAM name='loop' value='false'/> " +
+			"<embed type='application/x-mplayer2' " +
+			"pluginspage='http://microsoft.com/windows/mediaplayer/en/download/' " +
+		 	"name='FAudio' ShowStatusBar='false' EnableContextMenu='0' " +
+			"width='200' height='40' loop='false'></embed>" +
+		"</OBJECT>";
+}
+
+var url = "file://c://album release candidates//foo.wma";
+
+function showPlayerState() {
+	document.getElementById("playerState").innerHTML = "state: " + player().PlayState;
+}
+function injectPlayer() {
+	document.getElementById("audioPlay").innerHTML = getAudio();
+	showPlayerState();
+}
+function player() { return document.getElementById("AUDIO"); }
+function play() {
+	player().URL = url;
+	player().Play();
+	player().controls.play();
+	showPlayerState();
+}
+function stop() {
+	player().URL = "";
+	player().Stop();
+	player().controls.stop();
+	showPlayerState();
+}
+function test() {
+  alert(document.getElementById("wmp_p").controls);
+  alert(document.getElementById("AUDIO").controls);
+  showPlayerState();
+}
+</script>

@@ -1,0 +1,5 @@
+U:\POSHardwareControl\POSHardwareControl\obj\Debug\ResolveAssemblyReference.cache
+U:\POSHardwareControl\POSHardwareControl\bin\POSHardwareControl.dll
+U:\POSHardwareControl\POSHardwareControl\bin\POSHardwareControl.pdb
+U:\POSHardwareControl\POSHardwareControl\obj\Debug\POSHardwareControl.dll
+U:\POSHardwareControl\POSHardwareControl\obj\Debug\POSHardwareControl.pdb

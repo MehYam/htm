@@ -1,0 +1,141 @@
+<html>
+<head>
+<style>
+#audioPlay
+{
+	width: 0px;
+	height: 0px;
+	overflow:hidden;
+}
+#audioPlayParent
+{
+}
+</style>
+</head>
+<input type="button" value="inject" onclick="injectPlayer()"></input>
+<input type="button" value="test play" onclick="test_play()"></input>
+<input type="button" value="test stop" onclick="test_stop()"></input>
+<input type="button" value="test" onclick="test()"></input>
+<hr>
+<input type="button" value="play" onclick="play()"></input>
+<input type="button" value="stop" onclick="stop()"></input>
+<div id="audioPlay"></div>
+<div id="playerState"></div>
+
+</html>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript">
+function getPlayer()
+{
+	return document.getElementById("AUDIO");
+}
+function getPlayerContainer()
+{
+	return document.getElementById("audioPlay");
+}
+function injectPlayer()
+{
+	if (getPlayer()) return;
+
+	var playerElement;
+	if ($.browser.msie)
+	{
+		playerElement = 
+			"<OBJECT id='AUDIO' width='200' height='40' " +
+		 	"CLASSID='CLSID:6BF52A52-394A-11d3-B153-00C04F79FAA6'" +
+		 	"codebase='http://activex.microsoft.com/activex/controls/mplayer/en/nsmp2inf.cab#Version=7,0,0,1954' " + 
+		 	"type='application/x-oleobject'><param name='volume' value='100'/></OBJECT>";
+	}
+	else
+	{
+		playerElement =
+//			'<object id="AUDIO"	type="application/x-ms-wmp"	width="320" height="320" >' +
+			'<object id="AUDIO"	type="application/x-mplayer2"	width="320" height="320" >' +
+      			'<param name="autostart" value="false" />' + 
+      			'<param name="volume" value="100"/></object>';
+	}
+	getPlayerContainer().innerHTML = playerElement;
+}
+function injectNonScriptablePlayer(url) 
+{
+	var strPlayer = "<OBJECT id='AUDIO' width='200' height='40' " +
+		 "CLASSID='CLSID:22d6f312-b0f6-11d0-94ab-0080c74c7e95'" +
+		 "codebase='http://activex.microsoft.com/activex/controls/mplayer/en/nsmp2inf.cab#Version=7,0,0,1954' " + 
+		 "type='application/x-oleobject'> " +
+ 			"<PARAM name='showControls' value='false'/> " +
+	 		"<PARAM name='fileName' value='" + url + "'/> " +
+			"<PARAM name='autoStart' value='true'/> " +
+			"<PARAM name='loop' value='false'/> " +
+			"<embed type='application/x-mplayer2' " +
+			"pluginspage='http://microsoft.com/windows/mediaplayer/en/download/' " +
+		 	"name='FAudio' showControls='false' ShowStatusBar='false' EnableContextMenu='0' autostart='true' " +
+			"loop='false' src='" + url + "'></embed>" +
+		"</OBJECT>";
+	getPlayerContainer().innerHTML = strPlayer;
+}
+
+var url = "file://c:/album release candidates/foo.wma";
+var url2 = "file://c:/album release candidates/foo2.wma";
+var urls = [url, url2];
+
+function showPlayerState() {
+	document.getElementById("playerState").innerHTML = "state: " + getPlayer().PlayState;
+}
+function test_play() {
+	getPlayer().URL = urls[0];
+	urls.push(urls.shift());
+
+	getPlayer().controls.play();
+	showPlayerState();
+}
+function test_stop() {
+	getPlayer().controls.stop();
+	showPlayerState();
+}
+function test() {
+	getPlayerContainer().style.visibility = "hidden";
+//	alert("url: " + getPlayer().URL + ", controls: " + !!getPlayer().controls);
+}
+////////////// production mock-up ////////////////////////////////
+var g_playerAdapter;
+function getPlayerAdapter() {
+	if (!g_playerAdapter) {
+		injectPlayer();
+		var scriptable = !!getPlayer().controls;
+		g_playerAdapter = {};
+		if (scriptable) {
+			g_playerAdapter.version = "new";
+			g_playerAdapter.stop = function() {
+				var player = getPlayer();
+				if (player) {
+					player.controls.stop();
+				}
+			};
+			//g_playerAdapter.stop = test_stop;
+			g_playerAdapter.start = function(url) {
+				injectPlayer();
+				getPlayer().URL = url;
+				getPlayer().controls.play();
+			};
+		}
+		else {
+			g_playerAdapter.version = "old";
+			g_playerAdapter.stop = function() {
+				getPlayerContainer().innerHTML = "";
+			};
+			g_playerAdapter.start = function(url) {
+				injectNonScriptablePlayer(url);
+			}
+		}
+	}
+	return g_playerAdapter;
+}
+function play() {
+	getPlayerAdapter().start(urls[0]);
+	urls.push(urls.shift());
+}
+function stop() {
+	getPlayerAdapter().stop();
+}
+
+</script>

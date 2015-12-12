@@ -1,0 +1,10 @@
+C:\Users\jon\Desktop\Docs\msdn\code\MSDNMagazine\MSDNMagazine\obj\Debug\ResolveAssemblyReference.cache
+C:\Users\jon\Desktop\Docs\msdn\code\MSDNMagazine\MSDNMagazine\bin\MSDNMagazine.dll
+C:\Users\jon\Desktop\Docs\msdn\code\MSDNMagazine\MSDNMagazine\bin\MSDNMagazine.pdb
+C:\Users\jon\Desktop\Docs\msdn\code\MSDNMagazine\MSDNMagazine\obj\Debug\MSDNMagazine.dll
+C:\Users\jon\Desktop\Docs\msdn\code\MSDNMagazine\MSDNMagazine\obj\Debug\MSDNMagazine.pdb
+U:\MSDNMagazine\MSDNMagazine\bin\MSDNMagazine.dll
+U:\MSDNMagazine\MSDNMagazine\bin\MSDNMagazine.pdb
+U:\MSDNMagazine\MSDNMagazine\obj\Debug\ResolveAssemblyReference.cache
+U:\MSDNMagazine\MSDNMagazine\obj\Debug\MSDNMagazine.dll
+U:\MSDNMagazine\MSDNMagazine\obj\Debug\MSDNMagazine.pdb

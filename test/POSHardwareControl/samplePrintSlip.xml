@@ -1,0 +1,29 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<!-- type: "ticket" (will ignore price stuff), and "receipt" (will print price and totals) -->
+<printSlip>
+
+  <type>ticket</type>
+  <id>12345</id>
+  <datetime>October 9, 2011 10:15 AM</datetime>
+  
+  <businessInfo>
+    <name>J's Cleaners & Alterations</name>
+    <addr>205 S San Mateo Dr, San Mateo, CA 94401</addr>
+    <web>http://www.jsdryclean.com</web>
+    <phone>650.343.2060</phone>
+  </businessInfo>
+
+  <customerInfo>
+    <name>John Doe</name>
+    <phone>650.888.8888</phone>
+  </customerInfo>
+
+  <lineItems>
+    <item quantity="1" desciption="suit" comment="silk, black" perItemPrice="15.00"/>
+    <item quantity="1" desciption="dress" comment="cotton, red" perItemPrice="9.00"/>
+  </lineItems>
+
+  <footer>Have a good day.  Thanks for your patronage!</footer>
+  
+</printSlip>
