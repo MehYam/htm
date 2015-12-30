@@ -14,12 +14,40 @@ var g_testData =
 	[
 		"battery charge",
 		"syringe needle",
-		"gray grey",
+		"black dark gray grey",
 		"fly flies",
 		"zodiac horoscope horroscope",
 		"round circle ball sphere"
 	]
 };
+
+var g_itemClasses = "activated passive card rune pill"
+
+var g_testData_V2 = 
+{
+	"items":
+	{
+		"The Bible" :
+		{
+			wikiPage: "...",
+			thumbnail: "...",
+			descriptionHTML: "...",
+
+			itemClass: "activated",
+			type: "book",
+			color: "brown",
+			tags: ""
+		},
+		"Big Fan":
+		{
+			itemClass: "passive",
+			type: "familiar",
+			color: "brown beige",
+			tags: "fly orbital"
+		}
+	};
+};
+
 
 function prepareData(data)
 {
