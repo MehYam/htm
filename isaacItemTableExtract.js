@@ -6,12 +6,12 @@
 // 3.5) there may be more than one table of items to scrape per page, so pass in different table indices as appropriate
 // 4) save the files where the combiner script can find them
 
-var g_scrapeDescriptionColumn = 2; // == 3 for cards and runes
+var g_descriptionCol = 2; // changes for cards and runes
 function scrapeTable(tableIndex)
 {
 	return JSON.stringify(extractToJSON(getTable(tableIndex), rowImageAndThumbnailScrape), null, '\t');
 }
-function scrapeTableSublementalTemplate(tableIndex)
+function scrapeTableTemplate(tableIndex)
 {
 	return JSON.stringify(extractToJSON(getTable(tableIndex), rowMetadataTemplateScrape), null, '\t');
 }
@@ -25,35 +25,43 @@ function extractToJSON(table, rowScraper)
 		var row = table.rows[r];
 		var nCols = row.cells.length;
 
-		var entry = {};
-
-		var nameAnchor  = row.cells[0].childNodes[0];
-		var name = nameAnchor.childNodes[0].textContent;
-
-		rowScraper(row, entry);
-
-		retval[name] = entry;
+		var name = row.cells[0].textContent;
+		retval[name] = rowScraper(row);
 	}
 	return retval;
 }
-function rowImageAndThumbnailScrape(row, entry)
+function rowImageAndThumbnailScrape(row)
 {
-	entry.wikiPage = row.cells[0].childNodes[0].href;
+	var entry = {};
 
-	var thumbnail = row.cells[1].childNodes[0].childNodes[0];
-	entry.thumbnail = thumbnail.src;
+	var anchor = getChildTag(row.cells[0], "a");
+	if (anchor)
+	{
+		entry.wikiPage = anchor.href;
+	}
 
-	var description = row.cells[g_scrapeDescriptionColumn];
+	var img = getChildTag(row, "img");
+	entry.thumbnail = img.src;
+
+	var description = row.cells[g_descriptionCol];
 	entry.descriptionHTML = description.innerHTML;
+	return entry;
 }
-function rowMetadataTemplateScrape(row, entry)
+function rowMetadataTemplateScrape(row)
 {
+	var entry = {};
 	entry.itemClass = "";
 	entry.itemType = "";
 	entry.itemColor = "";
 	entry.itemTags = "";
+	return entry;
 }
 function getTable(index)
 {
 	return document.body.getElementsByTagName("table")[index];
+}
+function getChildTag(el, tagName)
+{
+	var elements = el.getElementsByTagName(tagName);
+	return elements && elements.length && elements[0];
 }
