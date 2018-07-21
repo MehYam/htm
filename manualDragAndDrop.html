@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+
+html, body {
+  margin: 0;
+  height: 100%;
+}
+
+body {
+  -webkit-touch-callout: none; /* iOS Safari */
+    -webkit-user-select: none; /* Safari */
+     -khtml-user-select: none; /* Konqueror HTML */
+       -moz-user-select: none; /* Firefox */
+        -ms-user-select: none; /* Internet Explorer/Edge */
+            user-select: none; /* Non-prefixed version, currently*/
+}
+
+/* dnd styles */
+.tile {
+  visibility: visible;
+  position: absolute;
+  height: 100px;
+  width: 100px;
+  background-color: red;
+}
+</style>
+</head>
+<body onmouseup="onMouseUp(event)" onmousemove="onMouseMove(event)">
+  <div 
+    id="testTile" 
+    class="tile" 
+    onclick="console.log('foo')" 
+    onmousedown="onMouseDown(event)" 
+    onmouseup="onMouseUp(event)"
+    style="left: 20px; top: 20px"
+  >
+  </div>
+</body>
+<script>
+var dragState = null;
+function onMouseDown(e)
+{
+  console.log('mouseDown');
+  dragState = { 
+    element: e.target,
+    mouseStart: {x: e.clientX, y: e.clientY},
+    elementStart: {x: parseInt(e.target.style.left), y: parseInt(e.target.style.top)}
+  };
+}
+function onMouseUp(e)
+{
+  console.log('mouseUp');
+  dragState = null;
+}
+function onMouseMove(e)
+{
+  if (dragState) {
+    var dragOffset = {
+      x: (e.clientX - dragState.mouseStart.x),
+      y: (e.clientY - dragState.mouseStart.y)
+    };
+    console.log(dragOffset);
+    dragState.element.style.left = (dragState.elementStart.x + dragOffset.x) + "px";
+    dragState.element.style.top  = (dragState.elementStart.y + dragOffset.y) + "px";
+  }
+}
+</script>
+</html>
