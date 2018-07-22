@@ -1,17 +1,20 @@
 <!DOCTYPE html>
 <html>
 <style>
+
+/* definitions of the main SPA-style structure */
 html, body {
    height: 100%;
+   margin: 0;
+   padding: 0;
 }
-.top {
+.parent {
    display: flex;
    flex-direction: column;
 
    height: 100%;
 
    background-color: #333333;
-   padding: 2px;
 }
 .menubar {
    background-color: #aaaaaa;
@@ -30,14 +33,42 @@ html, body {
    padding: 2px;
 }
 .clientArea {
+   display: flex;
+   flex-direction: column;
    flex-grow: 1;
    background-color: #8888ff;
    padding: 2px;
+
+   align-items: center;
+   justify-content: center;
+}
+
+/* content of the lower-right client area - a game board like in Color Match */
+.boards {
+   display: flex;
+   flex-direction: row;
+}
+.board {
+   display: flex;
+   flex-direction: column;
+
+   margin: 3px;
+}
+.boardrow {
+   display: flex;
+   flex-direction: row;
+}
+.tile {
+   background-color: #ff0000;
+   border: 1px dotted #cccccc;
+
+   width: 100px;
+   height: 100px;
 }
 </style>
 <body>
 
-<div class='top'>
+<div class='parent'>
    <div class='menubar'>
       MENUBAR
    </div>
@@ -46,7 +77,19 @@ html, body {
          SIDENAV
       </div>
       <div class='clientArea'>
-         CLIENTAREA
+         <div>CLIENTAREA</div>
+         <div class='boards'>
+            <div class='board'>
+               <div class='boardrow'><div class='tile'>1</div><div class='tile'>2</div><div class='tile'>3</div></div>
+               <div class='boardrow'><div class='tile'>4</div><div class='tile'>5</div><div class='tile'>6</div></div>
+               <div class='boardrow'><div class='tile'>7</div><div class='tile'>8</div><div class='tile'>9</div></div>
+            </div>
+            <div class='board'>
+               <div class='boardrow'><div class='tile'>1</div><div class='tile'>2</div><div class='tile'>3</div></div>
+               <div class='boardrow'><div class='tile'>4</div><div class='tile'>5</div><div class='tile'>6</div></div>
+               <div class='boardrow'><div class='tile'>7</div><div class='tile'>8</div><div class='tile'>9</div></div>
+            </div>
+         </div>
       </div>
    </div>
 </div>
